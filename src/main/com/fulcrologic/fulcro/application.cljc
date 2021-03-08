@@ -17,7 +17,6 @@
     [com.fulcrologic.fulcro.inspect.inspect-client :as inspect]
     [edn-query-language.core :as eql]
     [clojure.string :as str]
-    [clojure.spec.alpha :as s]
     com.fulcrologic.fulcro.specs
     [com.fulcrologic.guardrails.core :refer [>defn => | ?]]
     #?@(:cljs [[goog.object :as gobj]
@@ -395,7 +394,9 @@
                                        ::root-factory root-factory
                                        ::root-class root)
                                      (update-shared! app)
-                                     (util/check-query-valid (comp/get-query root) comp/component-name)
+                                     (util/check-query-valid
+                                       (comp/get-query root (some-> app ::state-atom deref))
+                                       comp/component-name)
                                      (indexing/index-root! app) ; this may fail if query invalid
                                      (render! app {:force-root? true
                                                    :hydrate?    hydrate?})))))]

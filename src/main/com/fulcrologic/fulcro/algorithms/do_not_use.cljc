@@ -151,13 +151,13 @@
       <>
       [<>])))
 
-(defn- check-query-valid
+(defn check-query-valid
   "Runtime check that the (typically root) query looks valid
   (though the Spec it uses might be both more strinct / more lax than the code
   so do not take it absolutely.
   "
   [query component-name-fn]
-  (when (and #?(:clj true :cljs goog.DEBUG)
+  (when (and #?(:clj false :cljs goog.DEBUG)
              query
              (false? (s/valid? ::eql/query query)))
     (log/error (str "The composed root query is not valid EQL. The app may crash. See `(comp/get-query "
